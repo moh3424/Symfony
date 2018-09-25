@@ -381,19 +381,109 @@ Sommaire :
 4/Documentation de TWIG
 ----------------------
 
+1/ créer un layout
+	-> Est une structure de page prête a recevoir des vues (bloc HTML), en déclarant des zonnes (fenêtre exemple {% block content %}.
+	-> Récupèrer le layout.html de mini-framwork et on le nom layout.html.twig, et on le place dans Boutique3/app/Ressources/view
+	-> On retirer la variable $content pour la remplacer par un block content
+
+2/ L'héritage Twig
+	-> Au même titre que l'hiritage en PHP, l'héritage TWIG permet de dire à un fichier qu'il dépend d'un parent.
+	-> Pour TWIG, en réalité l'héritage est matérialisé par le fait que l'on créé des blocs dans le parents (fênetres ouvertes)
+	dans lesquels les vues peuvent afficher du contenu HTML.
+
+	/!\ Attention : Si une vue hérite d'un template, on ne peut insérer de code que dans les blocs prévus à cette effet.
+
+
+3/ Modification de nos vues
+	-> Dans un premier temps on récupère boutique.html de notre mini-framwork et on fait :
+	1) On le renome en index.html.twig (parce que indexAction rend ce fichier
+
+	2) On lui dit d'hériter de notre layout
+	<cmdf>
+	{% extends 'layout.html.twig' %}
+
+	3) On insère le contenu dans le bloc content
+
+	4) On modifie les boucles
+	<cmd>
+	<?= $x['y'] ?>
+	ou <?= $X -> getY() ?>
+	deviennent :
+	{{ x.y }}
+
+
+4/Documentation de TWIG:
+
+https://twig.symfony.com/doc/2.x/
+
+
+Exercice :
+
+Créer la route Categorie, pour afficher les produits d'une categorie
+	-> Récupérer les arrays créés  dans accueil
+	-> Vous passer toutes les infos en paramètres render
+	-> Vous passer la vue à affiche dans render
+	-> test url /categorie/pull
+
+Créer la route produit qui affiche la page d'un produit
+	-> Créer un array produit dans la fonction produitAction()
+	-> Vous passez toutes les infos en paramètres de render
+	-> Vous passez la vue produit.html.twig à render
+	-> Vous créer le fichier produit.html.twig sur la base de produit.html (mini-framwork)
+	-> modifier produit.html.twig (héritage, boucle, et variables)
+	-> Test url /produit/12 (affiche la page d'un produit)
 
 
 
 
+-----------------------
+ETAPE 13 : Les Assets 
+-----------------------
+
+Le composant Asset de Symfony , nous permet de gérer les ressources (images, photos, js, css, liens etc..) et les appeler de manières absolue
+
+
+
+1/ Modifier le composer.json
+
+	<code>
+	"require" : {
+		"symfony/asset":"^3.4"
+	},
+
+
+2/ Mise à jour des composants
+	<cmd>
+	composer update
+	--> Le composer met à jourl'app en fonction du fichier composer.json
+
+	Methode 2 :
+	composer require syfony/asset
+
+3/ Modification des vues (assets et path) + Dossier photo
+
+	- Layout.html :
+		-> href="../../../web/css/styles.css"
+		->href="{{ asset('css/styles.css' }}"
+
+		-> href="index.php"
+		->href="{{ path('accueil') }}"
+
+		->Dans les vues :
+			-> src="../../web/photo/<?= $ptd['photo'] ?>"
+			-> href="{{ asset('/photo/' ~ pdt.photo) }}"
+
+			-> href= "fiche_produit.php?id=<?= $pdt['id_produit'] ?>"
+			-> href="{{ path('produit', { 'id' : pdt.id_produit}) }}"
+
+
+			ou: produit  -----> nom de la route à exécuter
+			    id -------> nom du param attendu par la route
+			    pdt.id_produit -> valeur de l'id du produit en cours	
 
 
 
 
-
-
-Créer un nouveau projet symfony boutique3
-Lancer le projet
-Crer un bundle BoutiqueBundle (sans namespace) a la premiere question : N
 
 
 		

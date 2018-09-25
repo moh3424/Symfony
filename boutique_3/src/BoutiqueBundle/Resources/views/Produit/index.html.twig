@@ -12,7 +12,7 @@
 			
 			
             {% for cat in categories %}
-			<a href="" class="list-group-item">{{ cat.categorie }}</a>
+			<a href="{{ path('categorie', {'categorie' : cat.categorie}) }}" class="list-group-item">{{ cat.categorie }}</a>
             {% endfor %}
 			
 			
@@ -27,7 +27,7 @@
             {% for pdt in produits %}
 			<div class="col-sm-4 mb-4">	
 				<div class="card">
-					<a href=""><img class="card-img-top" src="" alt=""></a>
+					<a href="{{ path('produit', {'id' : pdt.id_produit }) }}"><img class="card-img-top" src="{{asset ('/photo/' ~ pdt.photo)}}" alt="{{ pdt.titre }}"></a>
 					<div class="card-body">
 						<h4>{{ pdt.titre}}</h4>
 						<h5>{{ pdt.prix }}€</h5>
