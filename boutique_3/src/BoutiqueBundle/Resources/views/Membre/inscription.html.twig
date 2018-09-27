@@ -1,0 +1,42 @@
+		{% extends 'layout.html.twig' %}
+
+		{%   block content  %}
+
+        <h1>{{title}}</h1> 
+         <h3> Bonjour je suis dans l'inscription</h3>
+
+
+         <table class="table" border="1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Prenom</th>
+                        <th>Pseudo</th>
+                        <th>Nom</th>
+                        <th>email</th>
+                    </tr>
+                </thead>
+            {% for membre in membres %}
+         <tr>
+               
+                <td>{{ membre.prenom }}</td>
+                <td>{{ membre.pseudo }}</td>
+                <td>{{ membre.nom }}</td>
+                <td>{{ membre.email }}</td>
+
+            </tr>
+            {% endfor %}
+            </table><br><br><hr>
+
+          
+
+                {{form(membreForm)}}
+
+	<!-- 4 suite : ajout du JS pour afficher le popup panier : -->
+		<!-- <script>
+			$(function(){
+				// Show the Modal on load
+				$("#myModal").modal("show");
+			});
+		</script> -->
+
+        {% endblock %}

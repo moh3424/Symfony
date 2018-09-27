@@ -1,0 +1,21 @@
+	{% extends 'layout.html.twig' %}
+
+		{%   block content  %}
+
+        <h1>{{title}}</h1> 
+         <h3> Bonjour je suis dans la connexion</h3>
+
+         {% for msg in app.session.flashbag.get('success') %}
+         <span class="alert alert-success">{{ msg }}</span>
+         {% endfor%}
+
+
+	    <!-- 4 suite : ajout du JS pour afficher le popup panier : -->
+		<!-- <script>
+			$(function(){
+				// Show the Modal on load
+				$("#myModal").modal("show");
+			});
+		</script> -->
+
+        {% endblock %}
