@@ -1,0 +1,51 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+	
+	
+	<div class="row">
+	{% for msg in app.session.flashbag.get('success') %}
+		<span class="alert alert-success">{{ msg }}</span>
+	{% endfor %}
+	</div>
+
+<table border="1" class="table">
+	<thead class="thead-dark">
+		<tr>
+			<th>Photo</th>
+			<th>Id du produit</th>
+			<th>Référence</th>
+			<th>Catégorie</th>
+			<th>Titre</th>
+			<th>Public</th>
+			<th>Prix</th>
+			<th>Stock</th>
+			<th colspan="2">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for pdt in produits %}
+		<tr>
+			<td><img height="80" src="{{ asset('photo/' ~ pdt.photo ) }}" /></td>
+			<td>{{ pdt.id_produit }}</td>
+			<td>{{ pdt.reference }}</td>
+			<td>{{ pdt.categorie }}</td>
+			<td>{{ pdt.titre }}</td>
+				{% if pdt.public == 'm' %}
+					<td>Homme</td>
+				{% elseif pdt.public == "f" %}
+					<td>Femme</td>
+				{% else %}
+					<td>Mixte</td>
+				{% endif %}
+			<td>{{ pdt.prix }}€</td>
+			<td>{{ pdt.stock }}</td>	
+			<td><a href="{{ path('update_produit', { 'id' : pdt.id_produit } ) }}"><i class="far fa-edit"></i></a></td>
+			<td><a href="{{ path('delete_produit', { 'id' : pdt.id_produit } ) }}"><i class="far fa-trash-alt"></i></a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

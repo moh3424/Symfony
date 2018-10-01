@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
             {% for membre in membres %}
-         <tr>
+            <tr>
                
                 <td>{{ membre.prenom }}</td>
                 <td>{{ membre.pseudo }}</td>
@@ -27,9 +27,32 @@
             {% endfor %}
             </table><br><br><hr>
 
-          
+           {# Methode 2 : On va générer nous-meme le formulaire #}
 
-                {{form(membreForm)}}
+                {# {{form(membreForm)}} # }}
+
+                {# Si on souhaite afficher toutes les erreurs : {{ form_errors(membreForm)}} #}
+               
+
+                {{ form_start(membreForm) }}
+
+                <div class="form-group">
+                    {# ceci permet d'afficher le champs, le lebel et les erreurs{{ form_row(membreForm.pseudo) }} #}
+                </div>
+
+                <div class="form-group">
+                    <label>{{ form_label(membreForm.pseudo)}} </label>
+                        {{ form_widget(membreForm.pseudo, {'attr' : { 'class' :  'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
+                        {% if(form_errors(membreForm.pseudo)) %}
+                    <span class="alert alert-danger"{{ form_errors(membreForm.pseudo) }}></span>
+                    {% endif %}
+                </div>
+
+
+
+                {{ form_end(membreForm) }}
+                {# Ceci permet de générer des jeton CSRF et gère la sécurité #}
+
 
 	<!-- 4 suite : ajout du JS pour afficher le popup panier : -->
 		<!-- <script>
