@@ -6,16 +6,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response; 
 use Symfony\Component\HttpFoundation\Request;
 
-
-
 use BoutiqueBundle\Entity\Membre;
 use BoutiqueBundle\Entity\Produit;
 use BoutiqueBundle\Entity\Commande;
 use BoutiqueBundle\Entity\DetailsCommande;
 
-use BoutiqueBundle\Form\ProduitType;
-use BoutiqueBundle\Form\MembreType;
-use BoutiqueBundle\Form\CommandeType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\integerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType; // Input type text
+use Symfony\Component\Form\Extension\Core\Type\SubmitType; // input type submit
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType; // input type checkbox
 
 class AdminController extends Controller
 {
@@ -60,9 +61,31 @@ class AdminController extends Controller
 		// Nos formulaires sont liés à une entité... Donc on instancie un objet lié à cette entité (produit)
 		$produit = new Produit;
 		
-		// On récupère le builder de notre formulaire en lui passant l'objet qu'il représente
-	
-			$form = $this -> createForm(ProduitType::class, $produit);
+		// Obn récupère le builder de notre formulaire en lui passant l'objet qu'il représente
+		$formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $produit);
+
+		// on définie les champs de notre formulaire
+		$formBuilder			
+			-> add('reference', TextType::class)
+			-> add('categorie', TextType::class)
+			-> add('titre', TextType::class)
+			-> add('description', TextareaType::class)
+			-> add('public', ChoiceType::class, array(
+					'choices' => array(
+						'Homme' => 'm',
+						'Femme' => 'f'
+					)
+				))
+			-> add('couleur', TextType::class)
+			-> add('taille', TextType::class)
+			-> add('photo', TextType::class)
+			-> add('prix', TextType::class)
+			-> add('stock', TextType::class)
+			-> add('Ajouter', SubmitType::class);
+		
+		
+		//On récupère le formulaire	
+		$form = $formBuilder -> getForm();
 		
 		//On récupère la vue du formulaire
 		$formView = $form -> createView();
@@ -74,7 +97,6 @@ class AdminController extends Controller
 			
 			$em = $this -> getDoctrine() -> getManager();
 			$em -> persist($produit);
-			$produit -> chargementPhoto();
 			$em -> flush();
 			
 			// On récupère un objet session permettant de manipuler la session. 
@@ -107,7 +129,29 @@ class AdminController extends Controller
 		$repository = $this -> getDoctrine() -> getRepository(Produit::class);
 		$produit = $repository -> find($id);
 		
-		$form =$this-> createForm(produitType::class, $produit);
+		// ON construit le formulaire, en oubliant pas de passer l'objet en cours de modif
+		$formBuilder = $this -> get('form.factory') -> createBuilder(FormType::class, $produit);
+
+		$formBuilder			
+			-> add('reference', TextType::class)
+			-> add('categorie', TextType::class)
+			-> add('titre', TextType::class)
+			-> add('description', TextareaType::class)
+			-> add('public', ChoiceType::class, array(
+					'choices' => array(
+						'Homme' => 'm',
+						'Femme' => 'f'
+					)
+				))
+			-> add('couleur', TextType::class)
+			-> add('taille', TextType::class)
+			-> add('photo', TextType::class)
+			-> add('prix', TextType::class)
+			-> add('stock', TextType::class)
+			-> add('Modifier', SubmitType::class);
+		
+		
+		$form = $formBuilder -> getForm();
 		
 		$formView = $form -> createView();
 		
@@ -117,7 +161,6 @@ class AdminController extends Controller
 			
 			$em = $this -> getDoctrine() -> getManager();
 			$em -> persist($produit);
-			$produit -> chargementPhoto();
 			$em -> flush();
 			
 			$session = $request -> getSession(); 
@@ -126,12 +169,10 @@ class AdminController extends Controller
 			$session -> getFlashBag() -> add('success', 'Le produit a bien été modifié');
 			return $this -> redirectToRoute('show_produit'); 
 		}
+		
 		$params = array(
 			'produitForm' => $formView,
-			'title' => 'Modifier le produit n°' . $id,
-			'photo' => $produit -> getPhoto(),
-			
-
+			'title' => 'Modifier le produit n°' . $id
 		);
 		
 		return $this -> render('@Boutique/admin/form_produit.html.twig', $params);	

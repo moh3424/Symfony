@@ -3,152 +3,176 @@
 namespace BoutiqueBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface; 
 
 /**
  * Membre
  *
  * @ORM\Table(name="membre")
- * *@ORM\Entity(repositoryClass="BoutiqueBundle\Repository\MembreRepository")
+ * @ORM\Entity(repositoryClass="BoutiqueBundle\Repository\MembreRepository")
  */
-class Membre
+class Membre implements UserInterface
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id_membre", type="integer", nullable=false)
+     * @ORM\Column(name="id_membre", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idMembre;
+    private $id_membre;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="pseudo", type="string", length=20, nullable=false)
+     * @ORM\Column(name="username", type="string", length=20)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mdp", type="string", length=32, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255)
      */
-    private $mdp;
+    private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=20, nullable=false)
+     * @ORM\Column(name="nom", type="string", length=20)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="prenom", type="string", length=20, nullable=false)
+     * @ORM\Column(name="prenom", type="string", length=20)
      */
     private $prenom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @ORM\Column(name="email", type="string", length=50)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="civilite", type="string", length=1, nullable=false)
+     * @ORM\Column(name="civilite", type="text")
      */
     private $civilite;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ville", type="string", length=20, nullable=false)
+     * @ORM\Column(name="ville", type="string", length=20)
      */
     private $ville;
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="code_postal", type="integer", nullable=false)
+     * @ORM\Column(name="code_postal", type="integer")
      */
     private $codePostal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="adresse", type="string", length=50, nullable=false)
+     * @ORM\Column(name="adresse", type="string", length=50)
      */
     private $adresse;
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="statut", type="integer", nullable=false)
+     * @ORM\Column(name="statut", type="integer")
      */
-    private $statut = '0';
+    private $statut;
+
+
+    // public function __construct(){
+    //     $this -> statut = 0; 
+    //     //$this -> setStatut(0);
+    //     $this -> date_enregistrement = new \DateTime; 
+    // }
+
+    /**
+    *
+    *@ORM\Column(name="role", type="string")
+    *
+    */
+    private $role;
+
+
+    /**
+    *
+    *@ORM\Column(name="salt", type="string", length=255)
+    *
+    */
+    private $salt;
+
 
 
 
     /**
-     * Get idMembre
+     * Get id_membre
      *
-     * @return integer
+     * @return int
      */
-    public function getIdMembre()
+    public function getId_membre()
     {
-        return $this->idMembre;
+        return $this->id_membre;
     }
 
     /**
-     * Set pseudo
+     * Set username
      *
-     * @param string $pseudo
+     * @param string $username
      *
      * @return Membre
      */
-    public function setPseudo($pseudo)
+    public function setUsername($username)
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get pseudo
+     * Get username
      *
      * @return string
      */
-    public function getPseudo()
+    public function getUsername()
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
     /**
-     * Set mdp
+     * Set password
      *
-     * @param string $mdp
+     * @param string $password
      *
      * @return Membre
      */
-    public function setMdp($mdp)
+    public function setPassword($password)
     {
-        $this->mdp = $mdp;
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * Get mdp
+     * Get password
      *
      * @return string
      */
-    public function getMdp()
+    public function getPassword()
     {
-        return $this->mdp;
+        return $this->password;
     }
 
     /**
@@ -288,7 +312,7 @@ class Membre
     /**
      * Get codePostal
      *
-     * @return integer
+     * @return int
      */
     public function getCodePostal()
     {
@@ -336,10 +360,50 @@ class Membre
     /**
      * Get statut
      *
-     * @return integer
+     * @return int
      */
     public function getStatut()
     {
         return $this->statut;
     }
+
+
+    public function getSalt(){
+        return $this -> salt;
+    }
+
+    public function setSalt($salt){
+        $this -> salt = $salt;
+        return $this; 
+    }
+
+    /**
+    * @inheritDoc
+    *
+    */
+    public function getRoles(){
+        return [$this -> role];
+    }
+
+
+    public function getRole(){
+        return $this -> role; 
+    }
+
+    public function setRole($role){
+        $this -> role = $role;
+        return $this; 
+    }
+
+
+    /**
+    * @inheritDoc
+    *
+    */
+    public function eraseCredentials(){
+
+    }
+
+
 }
+

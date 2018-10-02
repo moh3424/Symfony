@@ -7,56 +7,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BoutiqueBundle\Entity\Membre;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;// input type text
-use Symfony\Component\Form\Extension\Core\Type\PasswordType; // input type password
-use Symfony\Component\Form\Extension\Core\Type\IntegerType; // input type Integer
-use Symfony\Component\Form\Extension\Core\Type\EmailType; // input type email
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType; // input type checkbox
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;  // input type submit
+
+
+
+use BoutiqueBundle\Form\MembreType;
 
 
 class MembreController extends Controller
 {
-       /**
-     * @Route("/inscription/", name="inscription")
-     */
-    public function inscriptionAction(Request $request)
-    {
+    
 
-       $membre = new Membre;
-        $form = $this -> creatForm(MembreType::class, $membre);
-
-            // Je génère le formulaire (HTML - partie visuel)
-            $formView = $form -> createView();
-
-                // permet de récupérer les données du poste
-            $form -> handleRequest($request);
-            if ($form -> isSubmitted() && $form -> isValid() ){
-                // On verra plus tard la validation
-                
-                $em = $this -> getDoctrine() -> getManager();
-                $em -> persist($membre);
-                $em -> flush();
-
-                $request -> getSession() -> getFlashBag() -> add('success', 'Félicitation, vous êtes inscrit !');
-                return $this -> redirectToRoute('connexion');
-            }
-
-
-
-        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
-        $membres= $repository -> findAll();
-        $params = array (    
-            'title' => 'Inscription',
-            'membreForm' => $formView,
-            'membres' => $membres
-        );
-
-        return $this->render('@Boutique/Membre/inscription.html.twig', $params);
-    }
-
-       /**
+     /**
      * @Route("/connexion/", name="connexion")
      */
     public function connexionAction()
