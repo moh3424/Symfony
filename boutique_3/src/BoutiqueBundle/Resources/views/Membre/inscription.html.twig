@@ -10,7 +10,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Prenom</th>
-                        <th>Pseudo</th>
+                        <th>pseudo</th>
                         <th>Nom</th>
                         <th>email</th>
                     </tr>
@@ -19,7 +19,7 @@
             <tr>
                
                 <td>{{ membre.prenom }}</td>
-                <td>{{ membre.pseudo }}</td>
+                <td>{{ membre.username }}</td>
                 <td>{{ membre.nom }}</td>
                 <td>{{ membre.email }}</td>
 
@@ -37,21 +37,21 @@
                 {{ form_start(membreForm) }}
 
                 <div class="form-group">
-                    {# ceci permet d'afficher le champs, le lebel et les erreurs{{ form_row(membreForm.pseudo) }} #}
+                    {# ceci permet d'afficher le champs, le lebel et les erreurs{{ form_row(membreForm.username) }} #}
                 </div>
 
                 <div class="form-group">
-                    <label>{{ form_label(membreForm.pseudo)}} </label>
-                        {{ form_widget(membreForm.pseudo, {'attr' : { 'class' :  'form-control', 'placeholder' : 'Votre pseudo'}} ) }}
-                        {% if(form_errors(membreForm.pseudo)) %}
-                    <span class="alert alert-danger">{{ form_errors(membreForm.pseudo) }}</span>
+                    <label>{{ form_label(membreForm.username)}} </label>
+                        {{ form_widget(membreForm.username, {'attr' : { 'class' :  'form-control', 'placeholder' : 'Votre username'}} ) }}
+                        {% if(form_errors(membreForm.username)) %}
+                    <span class="alert alert-danger">{{ form_errors(membreForm.username) }}</span>
                     {% endif %}
                 </div>
                   <div class="form-group">
-                    <label>{{ form_label(membreForm.mdp)}} </label>
-                        {{ form_widget(membreForm.mdp, {'attr' : { 'class' :  'form-control', 'placeholder' : 'Votre mot de passe'}} ) }}
-                        {% if(form_errors(membreForm.mdp)) %}
-                    <span class="alert alert-danger">{{ form_errors(membreForm.mdp) }}</span>
+                    <label>{{ form_label(membreForm.password)}} </label>
+                        {{ form_widget(membreForm.password, {'attr' : { 'class' :  'form-control', 'placeholder' : 'Votre mot de passe'}} ) }}
+                        {% if(form_errors(membreForm.password)) %}
+                    <span class="alert alert-danger">{{ form_errors(membreForm.password) }}</span>
                     {% endif %}
                 </div>
                   <div class="form-group">
@@ -95,7 +95,7 @@
                     <label>{{ form_label(membreForm.adresse)}} </label>
                         {{ form_widget(membreForm.adresse, {'attr' : { 'class' :  'form-control', 'placeholder' : 'Votre adresse'}} ) }}
                         {% if(form_errors(membreForm.adresse)) %}
-                    <span class="alert alert-danger">{{ form_errors(membreForm.pseudo) }}</span>
+                    <span class="alert alert-danger">{{ form_errors(membreForm.adresse) }}</span>
                     {% endif %}
                 </div>
 

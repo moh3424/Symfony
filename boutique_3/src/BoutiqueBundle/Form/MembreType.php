@@ -32,7 +32,7 @@ class MembreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder 
-            -> add('pseudo', TextType::class, array(
+            -> add('username', TextType::class, array(
                 'required' => false,
                 'constraints' => array(
                     new Assert\NotBlank(array(
@@ -50,7 +50,7 @@ class MembreType extends AbstractType
                     ))
                 )
             )) 
-            -> add('mdp', PasswordType::class, array(
+            -> add('password', PasswordType::class, array(
                 'required' => false,
                 'constraints' => array(
                     new Assert\NotBlank,

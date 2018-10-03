@@ -2,11 +2,15 @@
 
 namespace BoutiqueBundle\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BoutiqueBundle\Entity\Membre;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+
+
+
 
 
 
@@ -17,18 +21,7 @@ class MembreController extends Controller
 {
     
 
-     /**
-     * @Route("/connexion/", name="connexion")
-     */
-    public function connexionAction()
-    {
-          $params = array (
-            'title' => 'connexion'
-           
-        );
-
-        return $this->render('@Boutique/Membre/connexion.html.twig', $params);
-    }
+    
     /**
      * 
      * @Route("membre/update/{id}")
@@ -66,6 +59,40 @@ class MembreController extends Controller
 
          //tester : localhost:8000/membre/delete/21
     }
+
+    /**
+     * @Route("profil/", name="profil")
+     */
+
+     public function profilAction(){
+
+
+
+        $security = $this -> get('security.token_storage');
+        $token = $security -> getToken();
+        $user = $token -> getUser();
+
+
+        // SELECT DISTINCT Categorie FROM produit
+          
+       
+
+        // $params = array (
+        //     'produits' => $produits,
+        //     'categories' => $categories,
+        //     'title' => 'Accueil'
+        // );
+
+      
+
+        $params = array (
+           
+            'title' => 'Profil de ' . $user -> getUsername()
+           
+        );
+        return  $this->render('@Boutique/Membre/profil.html.twig', $params);
+     }
+
 
   
 }

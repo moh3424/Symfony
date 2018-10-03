@@ -159,5 +159,127 @@ class AdminController extends Controller
 		return $this -> redirectToRoute('show_produit');
 	}
 	
+
+	/**
+     * @Route("/admin/membre/show", name="show_membre")
+     */
+
+	public function showMembre(){
+// On récupère tous les Membres (findAll())
+		$repository = $this -> getDoctrine() -> getRepository(Membre::class);
+		$membres = $repository -> findAll();
+
+
+		$params = array (    
+            'title' => 'Affichage des membres',
+			'membres' => $membres
+	);
+		return $this -> render("@Boutique/admin/show_membre.html.twig", $params);
+        
+	}
+
+	/**
+	 * @Route("/admin/membre/update", name="update_membre")
+	*/
+
+	public function membreUpedateAction($id, Request $request){
+
+		// On récupère le produit à modifier (grâce à l'id dans l'url)
+		$repository = $this -> getDoctrine() -> getRepository(Membre::class);
+		$membre = $repository -> find($id);
+		
+		$form =$this-> createForm(MembreType::class, $membre);
+		
+		$formView = $form -> createView();
+		
+		$form -> handleRequest($request);
+		
+		if($form -> isSubmitted() && $form -> isValid()){
+			
+			$em = $this -> getDoctrine() -> getManager();
+			$em -> persist($membre);
+			//$membre -> chargementPhoto();
+			$em -> flush();
+			
+			$session = $request -> getSession(); 
+			//$session = $request -> get('session'); 
+			
+			$session -> getFlashBag() -> add('success', 'Le membre a bien été modifié');
+			return $this -> redirectToRoute('show_membre'); 
+		}
+		$params = array(
+			'produitForm' => $formView,
+			'title' => 'Modifier le membre n°' . $id
+		);
+		
+		return $this -> render('@Boutique/admin/form_produit.html.twig', $params);	
+	}
+
+	/**
+	* @Route("/admin/membre/delete/{id}", name="delete_membre")
+	*
+	*/
+	public function deleteMembreAction($id, Request $request){
+		
+		// On récupère le produit, via le manager... Parce qu'on en avoir besoin pour la suppression
+		$em = $this -> getDoctrine()-> getManager();
+		$membre = $em -> find(Membre::class, $id);
+		
+		$em -> remove($membre);
+		$em -> flush();
+		
+		$session = $request -> getSession();
+		$session -> getFlashBag() -> add('success', 'Le membre n°' . $id . ' a bien été supprimé');
+		
+		return $this -> redirectToRoute('show_membre');
+	}
+
+
+	/**
+	* @Route("/admin/membre/add", name="add_membre")
+	*
+	* Route pour ajouter un membre (formulaire d'ajout)
+	*/
+	public function membreAddAction(Request $request){
+		
+		// Nos formulaires sont liés à une entité... Donc on instancie un objet lié à cette entité (produit)
+		$membre = new Membre;
+		
+		// On récupère le builder de notre formulaire en lui passant l'objet qu'il représente
 	
+			$form = $this -> createForm(MembreType::class, $membre);
+		
+		//On récupère la vue du formulaire
+		$formView = $form -> createView();
+		
+		//permet de récupérer les données envoyées en post
+		$form -> handleRequest($request);
+		
+		if($form -> isSubmitted() && $form -> isValid()){
+			
+			$em = $this -> getDoctrine() -> getManager();
+			$em -> persist($membre);
+			//$membre -> chargementPhoto();
+			$em -> flush();
+			
+			// On récupère un objet session permettant de manipuler la session. 
+			$session = $request -> getSession();
+			
+			// On ajoute en session un message de validation
+			$session -> getFlashBag() -> add('success', 'Le membre a bien été ajouté');
+			
+			return $this -> redirectToRoute('show_membre');
+		}
+		
+		$params = array(
+			'membreForm' => $formView,
+			'title' => 'Ajouter membre'
+		);
+		
+		return $this -> render('@Boutique/admin/form_membre.html.twig', $params);
+	}
+	
+
+
+
 }

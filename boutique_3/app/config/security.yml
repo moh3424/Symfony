@@ -38,11 +38,11 @@ security:
             form_login: 
                 check_path: connexion
                 login_path: connexion
-                default_target_path: home
+                default_target_path: accueil
             
             logout:
                 path: deconnexion
-                target: home
+                target: accueil
 
     access_control:
         - {path: ^/admin, roles: ROLE_ADMIN}

@@ -36,10 +36,27 @@
         <div class="collapse navbar-collapse" id="nav1">
 			<ul class="navbar-nav ml-auto">
 				<li><a class="nav-link" href="{{path('accueil')}}">Boutique</a></li>
-				<li><a class="nav-link" href="{# {{path('profil')}} #}">Profil</a></li>
-				<li><a class="nav-link" href="{# {{path('panier')}} #}">Panier</a></li>
-				<li><a class="nav-link" href="{{path('connexion')}}">Connexion</a></li>
-				<li><a class="nav-link" href=" {{path('inscription')}} ">Inscription</a></li>
+        		<li><a class="nav-link" href="{# {{path('panier')}} #}">Panier</a></li>
+
+                {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                <li><a class="nav-link" href="{ {{path('profil')}} }">Profil</a></li>
+                <li><a class="nav-link" href="{{path('deconnexion')}}">Deconnexion</a></li>
+			
+
+                {% else %}
+
+               
+                <li><a class="nav-link" href=" {{path('inscription')}} ">Inscription</a></li>
+                <li><a class="nav-link" href="{{path('connexion')}}">Connexion</a></li>
+
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <li><a class="nav-link" href=" {{path('show_produit')}} ">Admin</a></li>
+
+                {% endif %}
+
         	</ul>
         </div>
 		<div class="collapse navbar-collapse" id="nav1">

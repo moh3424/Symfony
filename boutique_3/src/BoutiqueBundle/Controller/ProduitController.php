@@ -2,6 +2,8 @@
 
 namespace BoutiqueBundle\Controller;
 
+
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use BoutiqueBundle\Entity\Produit;
