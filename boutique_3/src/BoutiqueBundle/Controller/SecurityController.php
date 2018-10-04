@@ -21,11 +21,11 @@ class SecurityController extends Controller
      */
     public function inscriptionAction(Request $request)
     {
-    $passwordEncoder = $this -> get('security.password_encoder');
+       $passwordEncoder = $this -> get('security.password_encoder');
        $membre = new Membre;
        $membre -> setStatut(0);
        $membre -> setRole('ROLE_USER');
-        $form = $this -> createForm(MembreType::class, $membre);
+       $form = $this -> createForm(MembreType::class, $membre);
 
             // Je génère le formulaire (HTML - partie visuel)
             $formView = $form -> createView();

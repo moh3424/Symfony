@@ -2,20 +2,16 @@
 
 {% block content %}
 
-<img src="{{ asset('/photo/' ~ photo)}}" width="50"/>
+  <h1>{% block title %}{{ title }}{% endblock %}</h1>
 
-{{form(produitForm)}}
+  {% if photo is defined %}
 
+  <img src="{{ asset('/photo/' ~ photo)}}" width="150" />
 
-
-
-
-	<!-- 4 suite : ajout du JS pour afficher le popup panier : -->
-		<!-- <script>
-			$(function(){
-				// Show the Modal on load
-				$("#myModal").modal("show");
-			});
-		</script> -->
+  {% endif %}
  
+  {{ form(produitForm)}}
+
+ 
+
 {% endblock %}

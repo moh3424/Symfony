@@ -278,7 +278,71 @@ class AdminController extends Controller
 		
 		return $this -> render('@Boutique/admin/form_membre.html.twig', $params);
 	}
-	
+
+    /**
+     * @Route("admin/membre/profil/{id}", name="profil_membre")
+     */
+    public function profilMembreAction($id, Request $request)
+    {
+        $passwordEncoder = $this -> get('security.password_encoder');
+
+    
+        $membre = new Membre;
+        $membre -> setStatut(0);
+        $membre -> setRole('ROLE_USER');
+        $form = $this -> createForm(MembreType::class, $membre);
+        
+
+            // Je génère le formulaire (HTML - partie visuel)
+            $formView = $form -> createView();
+
+            // permet de récupérer les données du poste
+            $form -> handleRequest($request);
+            if ($form -> isSubmitted() && $form -> isValid() ){
+                // On verra plus tard la validation
+
+
+                $salt = substr(md5(time()), 0, 23);
+                // time() : 1545223656
+                // time() crypté en MD5 : 52154dsqf6s5564g46g6f5s65s565g654
+                // ON conserve du 0 au 23 ème caractères : 52154dsqf6s5564g46g6f5s65
+
+                $password = $passwordEncoder -> encodePassword($membre, $salt);
+                $membre -> setPassword($password) -> setSalt($salt);
+                // On mets dans l'objet $membre le nouveau password (crypté) et le salt (génèré aléatoirement) afin que ces deux valeurs soient enregistrée en BDD.
+                
+                $em = $this -> getDoctrine() -> getManager();
+                $em -> persist($membre);
+                $em -> flush();
+
+                $request -> getSession() -> getFlashBag() -> add('success', 'la fiche de l\' utilisateur  n° :' . $id);
+                return $this -> redirectToRoute('connexion');
+            }
+
+
+
+        $repository = $this -> getDoctrine() -> getRepository(Membre::class);
+        $membre= $repository -> find($id);
+
+       
+
+
+
+        $params = array (    
+            'title' => 'Le Profile des membres',
+            'membreForm' => $formView,
+            'membre' => $membre
+            // 'suggestions' => $suggestions
+           
+        );
+
+        var_dump($membre);
+
+        return $this->render('@Boutique/Admin/profil_membre.html.twig' , $params);
+    }
+
+
+
 
 
 

@@ -4,6 +4,7 @@ namespace BoutiqueBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface; 
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Membre
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="membre")
  * @ORM\Entity(repositoryClass="BoutiqueBundle\Repository\MembreRepository")
  */
-class Membre implements UserInterface
+class Membre extends BaseUser
 {
     /**
      * @var int
@@ -20,42 +21,25 @@ class Membre implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id_membre;
+    protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=20)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255)
-     */
-    private $password;
+   
 
     /**
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=20)
      */
-    private $nom;
+    protected $nom;
 
     /**
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=20)
      */
-    private $prenom;
+    protected $prenom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=50)
-     */
-    private $email;
+    
 
     /**
      * @var string
@@ -69,28 +53,28 @@ class Membre implements UserInterface
      *
      * @ORM\Column(name="ville", type="string", length=20)
      */
-    private $ville;
+    protected $ville;
 
     /**
      * @var int
      *
      * @ORM\Column(name="code_postal", type="integer")
      */
-    private $codePostal;
+    protected $codePostal;
 
     /**
      * @var string
      *
      * @ORM\Column(name="adresse", type="string", length=50)
      */
-    private $adresse;
+    protected $adresse;
 
     /**
      * @var int
      *
      * @ORM\Column(name="statut", type="integer")
      */
-    private $statut;
+    protected $statut = 0;
 
 
     // public function __construct(){
@@ -99,20 +83,10 @@ class Membre implements UserInterface
     //     $this -> date_enregistrement = new \DateTime; 
     // }
 
-    /**
-    *
-    *@ORM\Column(name="role", type="string")
-    *
-    */
-    private $role;
+  
 
 
-    /**
-    *
-    *@ORM\Column(name="salt", type="string", length=255)
-    *
-    */
-    private $salt;
+   
 
 
 
@@ -122,34 +96,12 @@ class Membre implements UserInterface
      *
      * @return int
      */
-    public function getId_membre()
+    public function getId()
     {
-        return $this->id_membre;
+        return $this->id;
     }
 
-    /**
-     * Set username
-     *
-     * @param string $username
-     *
-     * @return Membre
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
+   
 
     /**
      * Set password
@@ -158,23 +110,9 @@ class Membre implements UserInterface
      *
      * @return Membre
      */
-    public function setPassword($password)
-    {
-        $this->password = $password;
+  
 
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
+   
     /**
      * Set nom
      *
@@ -223,29 +161,7 @@ class Membre implements UserInterface
         return $this->prenom;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Membre
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
+    
 
     /**
      * Set civilite
@@ -368,42 +284,7 @@ class Membre implements UserInterface
     }
 
 
-    public function getSalt(){
-        return $this -> salt;
-    }
-
-    public function setSalt($salt){
-        $this -> salt = $salt;
-        return $this; 
-    }
-
-    /**
-    * @inheritDoc
-    *
-    */
-    public function getRoles(){
-        return [$this -> role];
-    }
-
-
-    public function getRole(){
-        return $this -> role; 
-    }
-
-    public function setRole($role){
-        $this -> role = $role;
-        return $this; 
-    }
-
-
-    /**
-    * @inheritDoc
-    *
-    */
-    public function eraseCredentials(){
-
-    }
-
+    
 
 }
 

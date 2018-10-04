@@ -60,39 +60,5 @@ class MembreController extends Controller
          //tester : localhost:8000/membre/delete/21
     }
 
-    /**
-     * @Route("profil/", name="profil")
-     */
-
-     public function profilAction(){
-
-
-
-        $security = $this -> get('security.token_storage');
-        $token = $security -> getToken();
-        $user = $token -> getUser();
-
-
-        // SELECT DISTINCT Categorie FROM produit
-          
-       
-
-        // $params = array (
-        //     'produits' => $produits,
-        //     'categories' => $categories,
-        //     'title' => 'Accueil'
-        // );
-
-      
-
-        $params = array (
-           
-            'title' => 'Profil de ' . $user -> getUsername()
-           
-        );
-        return  $this->render('@Boutique/Membre/profil.html.twig', $params);
-     }
-
-
-  
+    
 }

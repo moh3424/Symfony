@@ -15,7 +15,11 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
     <link type ="text/css" rel="stylesheet" href="{{ asset('/css/styles.css')}}">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
 
 </head>
 
@@ -40,15 +44,15 @@
 
                 {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-                <li><a class="nav-link" href="{ {{path('profil')}} }">Profil</a></li>
-                <li><a class="nav-link" href="{{path('deconnexion')}}">Deconnexion</a></li>
+                <li><a class="nav-link" href="{ {{path('show_membre')}} }">Profil</a></li>
+                <li><a class="nav-link" href="{{path('fos_user_security_logout')}}">Deconnexion</a></li>
 			
 
                 {% else %}
 
                
-                <li><a class="nav-link" href=" {{path('inscription')}} ">Inscription</a></li>
-                <li><a class="nav-link" href="{{path('connexion')}}">Connexion</a></li>
+                <li><a class="nav-link" href=" {{path('fos_user_registration_register')}} ">Inscription</a></li>
+                <li><a class="nav-link" href="{{path('fos_user_security_login')}}">Connexion</a></li>
 
                 {% endif %}
 
